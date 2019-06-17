@@ -1,5 +1,5 @@
 import { HomeComponent } from './components/home/home.component';
-import { GameComponent } from './components/game/game.component';
+import { EngineComponent } from './components/game/engine.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -10,7 +10,7 @@ const routes: Routes = [
     },
     {
         path: 'game',
-        component: GameComponent
+        component: EngineComponent
     }
 ];
 
