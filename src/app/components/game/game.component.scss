@@ -1,0 +1,15 @@
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  
+}
+#renderCanvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  font-size: 0;
+}
