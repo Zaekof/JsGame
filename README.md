@@ -18,13 +18,7 @@ With this sample, you can :
 
 ## Getting Started
 
-Clone this repository locally :
-
-``` bash
-git clone https://github.com/maximegris/angular-electron.git
-```
-
-Install dependencies with npm :
+Install dependencies with npm !!! (not yarn) :
 
 ``` bash
 npm install
