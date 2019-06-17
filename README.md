@@ -1,28 +1,22 @@
-# jsgame
+# JsGame
 
-> a simple game in js
+A basic Electron application needs just these files:
 
-#### Build Setup
+- `package.json` - Points to the app's main file and lists its details and dependencies.
+- `main.ts` - Starts the app and creates a browser window to render HTML. This is the app's **main process**.
+- `index.html` - A web page to render. This is the app's **renderer process**.
 
-``` bash
-# install dependencies
-yarn install
+You can learn more about each of these components within the [Quick Start Guide](http://electron.atom.io/docs/tutorial/quick-start).
 
-# serve with hot reload at localhost:9080
-yarn run dev
+## To Use
 
-# build electron application for production
-yarn run build
-
-# run unit & end-to-end tests
-yarn test
-
-
-# lint all JS/Vue component files in `src/`
-yarn run lint
-
+```bash
+# Install dependencies
+yarn
+# Run the app
+yarn dev
 ```
 
----
+## License
 
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[8fae476](https://github.com/SimulatedGREG/electron-vue/tree/8fae4763e9d225d3691b627e83b9e09b56f6c935) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+[MIT](LICENSE.md)
