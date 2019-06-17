@@ -18,7 +18,7 @@ import { WebviewDirective } from './directives/webview.directive';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import { GameComponent } from './components/game/game.component';
+import { EngineComponent } from './components/game/engine.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -30,7 +30,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     HomeComponent,
     WebviewDirective,
-    GameComponent
+    EngineComponent
   ],
   imports: [
     BrowserModule,

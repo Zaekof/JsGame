@@ -14,7 +14,7 @@ import '@babylonjs/core/Materials/standardMaterial';
 import '@babylonjs/core/Debug/debugLayer';
 import '@babylonjs/inspector';
 
-export class GameClassesComponent {
+export class GameEngine {
 
   private _canvas: HTMLCanvasElement;
   private _engine: Engine;

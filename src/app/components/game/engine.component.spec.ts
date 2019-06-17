@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GameComponent } from './game.component';
+import { EngineComponent } from './engine.component';
 import { TranslateModule } from '@ngx-translate/core';
 
-describe('GameComponent', () => {
-  let component: GameComponent;
-  let fixture: ComponentFixture<GameComponent>;
+describe('EngineComponent', () => {
+  let component: EngineComponent;
+  let fixture: ComponentFixture<EngineComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameComponent ],
+      declarations: [ EngineComponent ],
       imports: [
         TranslateModule.forRoot()
       ]
@@ -18,7 +18,7 @@ describe('GameComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GameComponent);
+    fixture = TestBed.createComponent(EngineComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
