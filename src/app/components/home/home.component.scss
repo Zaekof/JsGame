@@ -36,7 +36,14 @@ h1, h2, h3, h4, h5, h6, p, a {
           transform: rotate(-5deg)scale(1.1)translate(-50%, -50%);
           text-shadow: 1px -1px 0 grey, 1px -2px 0 grey, 1px -3px 0 grey,
             1px -4px 0 grey, 1px -5px 0 grey, 1px -6px 0 grey, 1px -7px 0 grey,
-            1px -8px 0 grey, 5px -13px 15px black, 5px -13px 25px #808080;      
+            1px -8px 0 grey, 5px -13px 15px black, 5px -13px 25px #808080;
+
+          &:hover {
+            cursor: default;
+          }
+          span:hover {
+            cursor: grab;
+          }
         }
       }
       .navigation {
@@ -77,17 +84,19 @@ h1, h2, h3, h4, h5, h6, p, a {
         }
       }
       .settings {
-        width: 100%;
-        height: 600px;
+        width: 70%;
+        height: calc(100vh - 300px);
   
         overflow: auto;
-        background: silver;
+        position: absolute;
+        left: 15%;
+        background: rgb(173, 168, 168);
   
         .header {
-          width: 100%; height: 50px;
+          width: 100%; height: 5vh;
   
           button {
-            width: calc(100% / 5); height: 50px;
+            width: calc(100% / 5); height: 100%;
   
             border: none;
             display: inline-block;
@@ -108,20 +117,75 @@ h1, h2, h3, h4, h5, h6, p, a {
           }        
         }
         .main {
-          width: 100%; height: 500px;
-  
-          background: rgb(173, 168, 168);
-  
+          width: 100%; height: 45vh;
+
           h5 {
-            margin: 0; padding: 0;
+            padding: 0; margin: 0;
+          }          
+          .section {
+            width: calc(100% - 105px); height: 5vh;
+
+            border-left: 5px solid rgb(255, 255, 255);;
+            margin: 10px 50px;
+            display: inline-block;
+            h5 {
+              width: 30%;
+
+              padding: 0; margin: 0;
+              display: inline-block;
+              text-align: center;
+              font-size: 1.2rem;
+              color: rgb(255, 255, 255);
+            }
+            .bloc {
+              width: 70%;
+
+              display: inline-block;
+              text-align: center;
+
+              select {
+                height: 50px; width: 50%;
+            
+                border-bottom: 1px solid #c9c9c9;
+                border-top: 0;
+                border-left: 0;
+                border-right: 0;
+                color: #444444;
+                -webkit-appearance: button;
+                border-radius: 2px;
+                -webkit-padding-end: 20px;
+                -webkit-padding-start: 2px;
+                -webkit-user-select: none;
+                background-color: white;
+                background-image: url('https://d30y9cdsu7xlg0.cloudfront.net/png/221782-200.png');
+                background-position: 97% center;
+                background-repeat: no-repeat;
+                background-size: contain;
+                overflow: hidden;
+                padding: 5px 10px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+                option {
+                  position: relative;
+                }                
+              }              
+            }
+
+            &:first-of-type {
+              margin-top: 5vh;
+            }
           }
         }
         .footer {
-          width: 100%; height: 50px;
+          width: 100%; height: 5vh;
+          
+          position: absolute;
+          bottom: 0;
   
           button {
             width: 50%;
-            height: 50px;
+            height: 100%;
   
             border: none;
             padding: 0; margin: 0;
