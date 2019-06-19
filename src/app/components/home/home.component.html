@@ -110,7 +110,8 @@
   <div class="flex-container">
     <div class="item">
       <div class="titleHeader">
-        <h1 class="title bounce">JsGa<span>m</span>e</h1>
+        <h1 class="title bounce">JsGa<span (click)="titleAnimationVisibility = !titleAnimationVisibility">m</span>e</h1>
+        <h1 *ngIf="titleAnimationVisibility" class="title hacked">JsGame</h1>
       </div>
     </div>
     <div class="item">

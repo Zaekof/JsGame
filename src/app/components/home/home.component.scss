@@ -31,6 +31,7 @@ h1, h2, h3, h4, h5, h6, p, a {
         text-align: center;
   
         h1 {
+          z-index: 1;
           color: aliceblue;
           font-size: 5rem;
           transform: rotate(-5deg)scale(1.1)translate(-50%, -50%);
@@ -326,4 +327,21 @@ svg {
   to {
     stroke-dashoffset: 0;
   }
+}
+
+
+.hacked {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  position: absolute;
+  animation: moveX 5s linear 0s infinite alternate, moveY 5s linear 0s infinite alternate;
+}
+
+@keyframes moveX {
+  from { left: 0; } to { left: calc(100vw - 300px); }
+}
+@keyframes moveY {
+  from { top: 0; } to { top: calc(100vh - 150px); }
 }

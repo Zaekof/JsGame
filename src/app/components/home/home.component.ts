@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { ElectronService } from '../../providers/electron.service';
+import { StorageService } from '../../providers/storage.service';
 
 const swalWithBootstrapButtons = Swal.mixin({
   customClass: {
@@ -8,6 +9,12 @@ const swalWithBootstrapButtons = Swal.mixin({
     cancelButton: 'btn btn-success'
   },
   buttonsStyling: true,
+});
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 3000
 });
 
 @Component({
@@ -19,6 +26,8 @@ export class HomeComponent implements OnInit {
 
   public settingsOpen = false;
   public settingsContainer: Object;
+  public titleAnimation = false;
+  public titleAnimationVisibility = false;
 
   /**
    * Display
@@ -58,11 +67,14 @@ export class HomeComponent implements OnInit {
       public selectedDisplayB: String = '1024 x 768 - 4:3';
 
   private electron: ElectronService;
+  private storage: StorageService;
 
   constructor(
-    electron: ElectronService
+    electron: ElectronService,
+    storage: StorageService
   ) {
     this.electron = electron;
+    this.storage = storage;
     this.settingsContainer = {
       display: true,
       audio: false,
@@ -73,6 +85,27 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    /**
+     * Check if screenSize was saved in localStorage
+     *  true -> we define the window with the values
+     *  false -> we define the window with the current screen size (screen monitor)
+     */
+    const screenSize = this.storage.getItem('screenSize');
+    if (screenSize === null || screenSize === 'null') {
+      this.electron.remote.getCurrentWindow().setSize(this.electron.getScreenSize().width,
+       this.electron.getScreenSize().height);
+      this.storage.setItem('screenSize', `${this.electron.getScreenSize().width} - ${this.electron.getScreenSize().height}`);
+    } else {
+      this.electron.remote.getCurrentWindow().setSize(Number(screenSize.split(' - ', 1)[0]), Number(screenSize.split(' - ', 2)[1]));
+
+      const data = this.optionDisplayB.map(x => x.split(' - ', 1)[0].split(' x ', 1)[0] === screenSize.split(' - ', 1)[0] &&
+       x.split(' - ', 1)[0].split(' x ', 2)[1] === screenSize.split(' - ', 2)[1]);
+      if (data) {
+        const index = data.indexOf(true);
+        this.selectedDisplayB = this.optionDisplayB[index];
+      }
+    }
   }
 
   /**
@@ -191,7 +224,12 @@ export class HomeComponent implements OnInit {
     switch (this.selectedDisplayA) {
       case 'Window': {
         win.setFullScreen(false);
-        win.setSize(this.electron.getScreenSize().width, this.electron.getScreenSize().height);
+          // optionDisplayB
+          win.setSize(Number(this.selectedDisplayB.split(' - ', 1)[0].split(' x ', 1)[0]),
+            Number(this.selectedDisplayB.split(' - ', 1)[0].split(' x ', 2)[1]));
+          win.center();
+          const sizeSplit = this.selectedDisplayB.split(' - ', 1)[0];
+          this.storage.setItem('screenSize', `${sizeSplit.split(' x ', 1)[0]} - ${sizeSplit.split(' x ', 2)[1]}`);
         break;
       }
       case 'Fullscreen': {
@@ -204,10 +242,11 @@ export class HomeComponent implements OnInit {
         break;
       }
     }
-    // optionDisplayB
-    win.setSize(Number(this.selectedDisplayB.split(' - ', 1)[0].split(' x ', 1)[0]),
-     Number(this.selectedDisplayB.split(' - ', 1)[0].split(' x ', 2)[0]));
-    win.center();
+
+    Toast.fire({
+      type: 'success',
+      title: 'Settings successfully saved'
+    });
   }
 
   onChange( name: string, value: string ): void {
