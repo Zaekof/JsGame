@@ -25,7 +25,13 @@ const Toast = Swal.mixin({
 export class HomeComponent implements OnInit {
 
   public settingsOpen = false;
-  public settingsContainer: Object;
+  public settingsContainer: Object = {
+    display: true,
+    audio: false,
+    game: false,
+    controls: false,
+    graphics: false
+  };
   public titleAnimation = false;
   public titleAnimationVisibility = false;
 
@@ -69,38 +75,61 @@ export class HomeComponent implements OnInit {
   private electron: ElectronService;
   private storage: StorageService;
 
+  private menuSettings = {
+    display: {
+      'window': null,
+      'video': null,
+      'vsync': null
+    }
+  };
+
   constructor(
     electron: ElectronService,
     storage: StorageService
   ) {
     this.electron = electron;
     this.storage = storage;
-    this.settingsContainer = {
-      display: true,
-      audio: false,
-      game: false,
-      controls: false,
-      graphics: false
-    };
   }
 
   ngOnInit() {
+    this.loadDisplaySettings();
+  }
 
-    /**
-     * Check if screenSize was saved in localStorage
-     *  true -> we define the window with the values
-     *  false -> we define the window with the current screen size (screen monitor)
-     */
-    const screenSize = this.storage.getItem('screenSize');
-    if (screenSize === null || screenSize === 'null') {
+  /**
+   * Load settings for Display section
+   */
+  loadDisplaySettings(): void {
+    const win = this.electron.remote.getCurrentWindow();
+    const settingsWindow = this.storage.getItem('screenMode');
+    const settingsVideo = this.storage.getItem('screenSize');
+
+    if (settingsWindow !== null || settingsWindow !== 'null') {
+      this.selectedDisplayA = settingsWindow;
+      switch (settingsWindow) {
+        case 'Window': {
+          win.setFullScreen(false);
+          break;
+        }
+        case 'Fullscreen': {
+          win.setFullScreen(true);
+          break;
+        }
+        case 'Fullscreen Window': {
+          win.setSimpleFullScreen(true);
+          win.setSize(this.electron.getScreenSize().width, this.electron.getScreenSize().height);
+          break;
+        }
+      }
+    }
+    if (settingsVideo === null || settingsVideo === 'null') {
       this.electron.remote.getCurrentWindow().setSize(this.electron.getScreenSize().width,
        this.electron.getScreenSize().height);
       this.storage.setItem('screenSize', `${this.electron.getScreenSize().width} - ${this.electron.getScreenSize().height}`);
-    } else {
-      this.electron.remote.getCurrentWindow().setSize(Number(screenSize.split(' - ', 1)[0]), Number(screenSize.split(' - ', 2)[1]));
+    } else if (settingsVideo !== null || settingsVideo !== 'null') {
+      this.electron.remote.getCurrentWindow().setSize(Number(settingsVideo.split(' - ', 1)[0]), Number(settingsVideo.split(' - ', 2)[1]));
 
-      const data = this.optionDisplayB.map(x => x.split(' - ', 1)[0].split(' x ', 1)[0] === screenSize.split(' - ', 1)[0] &&
-       x.split(' - ', 1)[0].split(' x ', 2)[1] === screenSize.split(' - ', 2)[1]);
+      const data = this.optionDisplayB.map(x => x.split(' - ', 1)[0].split(' x ', 1)[0] === settingsVideo.split(' - ', 1)[0] &&
+       x.split(' - ', 1)[0].split(' x ', 2)[1] === settingsVideo.split(' - ', 2)[1]);
       if (data) {
         const index = data.indexOf(true);
         this.selectedDisplayB = this.optionDisplayB[index];
@@ -220,28 +249,32 @@ export class HomeComponent implements OnInit {
   saveSettings(): void {
     const win = this.electron.remote.getCurrentWindow();
 
-    // optionDisplayA
-    switch (this.selectedDisplayA) {
-      case 'Window': {
-        win.setFullScreen(false);
-          // optionDisplayB
-          win.setSize(Number(this.selectedDisplayB.split(' - ', 1)[0].split(' x ', 1)[0]),
-            Number(this.selectedDisplayB.split(' - ', 1)[0].split(' x ', 2)[1]));
-          win.center();
-          const sizeSplit = this.selectedDisplayB.split(' - ', 1)[0];
-          this.storage.setItem('screenSize', `${sizeSplit.split(' x ', 1)[0]} - ${sizeSplit.split(' x ', 2)[1]}`);
-        break;
-      }
-      case 'Fullscreen': {
-        win.setFullScreen(true);
-        break;
-      }
-      case 'Fullscreen Window': {
-        win.setSimpleFullScreen(true);
-        win.setSize(this.electron.getScreenSize().width, this.electron.getScreenSize().height);
-        break;
+    if (this.menuSettings.display.window !== null) {
+      this.storage.setItem('screenMode', this.menuSettings.display.window);
+      switch (this.menuSettings.display.window) {
+        case 'Window': {
+          win.setFullScreen(false);
+          break;
+        }
+        case 'Fullscreen': {
+          win.setFullScreen(true);
+          break;
+        }
+        case 'Fullscreen Window': {
+          win.setSimpleFullScreen(true);
+          win.setSize(this.electron.getScreenSize().width, this.electron.getScreenSize().height);
+          break;
+        }
       }
     }
+    if (this.menuSettings.display.video !== null) {
+      const screenSize = this.menuSettings.display.video;
+      const sizeSplit = this.selectedDisplayB.split(' - ', 1)[0];
+      win.setSize(Number(screenSize.split(' - ', 1)[0]), Number(screenSize.split(' - ', 2)[1]));
+      win.center();
+      this.storage.setItem('screenSize', `${sizeSplit.split(' x ', 1)[0]} - ${sizeSplit.split(' x ', 2)[1]}`);
+    }
+    if (this.menuSettings.display.vsync !== null) {}
 
     Toast.fire({
       type: 'success',
@@ -249,11 +282,18 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /**
+   * On change selected value in settings
+   * @param name
+   * @param value
+   */
   onChange( name: string, value: string ): void {
     if (name === 'displayA') {
       this.selectedDisplayA = value;
+      this.menuSettings.display.window = value;
     } else if (name === 'displayB') {
       this.selectedDisplayB = value;
+      this.menuSettings.display.video = `${value.split(' - ', 1)[0].split(' x ', 1)[0]} - ${value.split(' - ', 1)[0].split(' x ', 2)[1]}`;
     }
   }
 
