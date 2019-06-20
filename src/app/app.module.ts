@@ -21,6 +21,13 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { EngineComponent } from './components/game/engine.component';
 
+
+import { UiInfobarBottomComponent } from './components/game/hud/ui-infobar-bottom/ui-infobar-bottom.component';
+import { UiInfobarTopComponent } from './components/game/hud/ui-infobar-top/ui-infobar-top.component';
+import { UiSidebarLeftComponent } from './components/game/hud/ui-sidebar-left/ui-sidebar-left.component';
+import { UiSidebarRightComponent } from './components/game/hud/ui-sidebar-right/ui-sidebar-right.component';
+import { HudComponent } from './components/game/hud/hud.component';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -31,7 +38,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     HomeComponent,
     WebviewDirective,
-    EngineComponent
+    EngineComponent,
+    HudComponent,
+    UiInfobarBottomComponent,
+    UiInfobarTopComponent,
+    UiSidebarLeftComponent,
+    UiSidebarRightComponent
   ],
   imports: [
     BrowserModule,

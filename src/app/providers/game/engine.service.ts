@@ -1,3 +1,5 @@
+import { Injectable } from '@angular/core';
+
 /**
  * Imports from BabylonJS
  */
@@ -14,6 +16,7 @@ import '@babylonjs/core/Materials/standardMaterial';
 import '@babylonjs/core/Debug/debugLayer';
 import '@babylonjs/inspector';
 
+@Injectable()
 export class GameEngine {
 
   private _canvas: HTMLCanvasElement;
