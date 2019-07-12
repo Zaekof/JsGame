@@ -14,6 +14,9 @@ export class EngineComponent implements OnInit {
     const game = new GameEngine('renderCanvas');
     game.ft_createScene();
     game.ft_animate();
+
+    document.addEventListener('keydown', game.keyDownHandler, false);
+    document.addEventListener('keyup', game.keyUpHandler, false);
     // game.ft_inspector();
   }
 }

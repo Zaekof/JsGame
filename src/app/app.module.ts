@@ -26,6 +26,7 @@ import { UiInfobarBottomComponent } from './components/game/hud/ui-infobar-botto
 import { UiInfobarTopComponent } from './components/game/hud/ui-infobar-top/ui-infobar-top.component';
 import { UiSidebarLeftComponent } from './components/game/hud/ui-sidebar-left/ui-sidebar-left.component';
 import { UiSidebarRightComponent } from './components/game/hud/ui-sidebar-right/ui-sidebar-right.component';
+import { UiPauseComponent } from './components/game/hud/ui-pause/ui-pause.component';
 import { HudComponent } from './components/game/hud/hud.component';
 
 // AoT requires an exported function for factories
@@ -43,7 +44,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     UiInfobarBottomComponent,
     UiInfobarTopComponent,
     UiSidebarLeftComponent,
-    UiSidebarRightComponent
+    UiSidebarRightComponent,
+    UiPauseComponent
   ],
   imports: [
     BrowserModule,

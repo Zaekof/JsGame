@@ -225,6 +225,9 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Exit to app
+   */
   quitGame(): void {
     swalWithBootstrapButtons.fire({
       title: 'Are you sure?',
@@ -246,6 +249,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /**
+   * Save the settings in electron store
+   */
   saveSettings(): void {
     const win = this.electron.remote.getCurrentWindow();
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-hud',
@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HudComponent implements OnInit {
 
-  constructor() { }
+  public gamePause = false;
+
+  constructor() {}
 
   ngOnInit() {
+    window.addEventListener('game', (e: CustomEvent) => {
+      switch (e.detail) {
+        case 'pausePressed':
+          this.gamePause = !this.gamePause;
+          break;
+        default:
+          break;
+      }
+    });
   }
 
 }
