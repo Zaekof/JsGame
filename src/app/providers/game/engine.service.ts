@@ -1,3 +1,5 @@
+import { Injectable } from '@angular/core';
+import { ipcRenderer, ipcMain } from 'electron';
 /**
  * Imports from BabylonJS
  */
@@ -14,6 +16,7 @@ import '@babylonjs/core/Materials/standardMaterial';
 import '@babylonjs/core/Debug/debugLayer';
 import '@babylonjs/inspector';
 
+@Injectable()
 export class GameEngine {
 
   private _canvas: HTMLCanvasElement;
@@ -21,6 +24,12 @@ export class GameEngine {
   private _scene: Scene;
   private _camera: FreeCamera;
   private _light: HemisphericLight;
+
+  rightPressed = false;
+  leftPressed = false;
+  upPressed = false;
+  downPressed = false;
+  pausePressed = false;
 
   constructor(canvasElement: string) {
     this._canvas = <HTMLCanvasElement>document.getElementById(canvasElement);
@@ -49,6 +58,40 @@ export class GameEngine {
     // Create a built-in "ground" shape
     const ground = MeshBuilder.CreateGround('ground1',
       {width: 6, height: 6, subdivisions: 2}, this._scene);
+  }
+
+  keyUpHandler(event) {
+    if (event.keyCode === 39) {
+      this.rightPressed = false;
+    } else if (event.keyCode === 37) {
+      this.leftPressed = false;
+    }
+    if (event.keyCode === 40) {
+      this.downPressed = false;
+    } else if (event.keyCode === 38) {
+      this.upPressed = false;
+    }
+    if (event.keyCode === 27) {
+      this.pausePressed = false;
+    }
+  }
+
+  keyDownHandler(event) {
+    if (event.keyCode === 39) {
+      this.rightPressed = true;
+    } else if (event.keyCode === 37) {
+      this.leftPressed = true;
+    }
+    if (event.keyCode === 40) {
+      this.downPressed = true;
+    } else if (event.keyCode === 38) {
+      this.upPressed = true;
+    }
+    if (event.keyCode === 27) {
+      this.pausePressed = true;
+      const evt = new CustomEvent('game', { detail: 'pausePressed' });
+      window.dispatchEvent(evt);
+    }
   }
 
   /**

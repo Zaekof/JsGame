@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GameEngine } from './engine.service';
+import { GameEngine } from '../../providers/game/engine.service';
 
 @Component({
   selector: 'app-engine',
@@ -14,6 +14,9 @@ export class EngineComponent implements OnInit {
     const game = new GameEngine('renderCanvas');
     game.ft_createScene();
     game.ft_animate();
-    game.ft_inspector();
+
+    document.addEventListener('keydown', game.keyDownHandler, false);
+    document.addEventListener('keyup', game.keyUpHandler, false);
+    // game.ft_inspector();
   }
 }

@@ -1,7 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'RobotoRegular';
+  src: url(./assets/fonts/Roboto-Regular.ttf);
+}
+@font-face {
+  font-family: 'RobotoLight';
+  src: url(./assets/fonts/Roboto-Light.ttf);
+}
+
+*, *::after, *::before {
+  font-family: 'RobotoRegular', sans-serif;
+}
+
 html, body {
-  margin: 0;
-  padding: 0;
+  margin: 0 !important;
+  padding: 0 !important;
 
   height: 100%;
+}
+
+.swal2-styled.swal2-confirm {
+  background-color: rgba(190, 30, 30, 0.822) !important;
+}
+.swal2-styled.swal2-cancel {
+  background-color: rgba(238, 173, 53, 0.822) !important;
 }
